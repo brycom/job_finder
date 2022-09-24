@@ -1,92 +1,77 @@
-from selenium import webdriver
-from selenium.webdriver.common.by import By
-import pandas as pd
 import time
 
+import pandas as pd
+from selenium import webdriver
+from selenium.webdriver.common.by import By
 
-
-url = 'https://arbetsformedlingen.se/platsbanken/annonser?p=4:apaJ_2ja_LuF&l=3:mmot_H3A_auW'
+url = "https://arbetsformedlingen.se/platsbanken/annonser?p=4:apaJ_2ja_LuF&l=3:mmot_H3A_auW"
 driver = webdriver.Chrome("C:\python\chromedriver.exe")
 driver.get(url)
 driver.implicitly_wait(5)
 
-#list for pd dataframe.
+# list for pd dataframe.
 job_list = []
 
 
-
-#Decline cookis.
+# Decline cookis.
 def click_decline_button():
-    decline_button = driver.find_element(By.ID , 'afCookieDecline')
+    decline_button = driver.find_element(By.ID, "afCookieDecline")
     decline_button.click()
 
-#main containers.
-main_containers = driver.find_elements(By.CLASS_NAME, 'card-container')
 
-#locate and sort children
+# main containers.
+
+
+# locate and sort children
 def item_organizer(containers):
     for i in containers:
-        job_ad = i.find_element(By.TAG_NAME , "a")
-        ad_link = job_ad.get_attribute('href')
+        job_ad = i.find_element(By.TAG_NAME, "a")
+        ad_link = job_ad.get_attribute("href")
         job_description = job_ad.text
-        company_and_city = i.find_element(By.CLASS_NAME, 'pb-company-name').text
-    
+        company_and_city = i.find_element(By.CLASS_NAME, "pb-company-name").text
+
         job_items = {
-            'Company and City:' : company_and_city,
-            'Job description:': job_description ,
-            'Ad link:': ad_link
+            "Company and City:": company_and_city,
+            "Job description:": job_description,
+            "Ad link:": ad_link,
         }
-        
+
         job_list.append(job_items)
 
-#Locate and puch the next button.
+
+# Locate and puch the next button.
 def next_page():
-    
-    next_button = driver.find_element(By.XPATH ,'/html/body/div[1]/div[2]/div[8]/div/div/main/div[3]/div/div/div[2]/div/div/div/div/div[2]/div[2]/pb-root/div/pb-page-search/div[2]/pb-feature-tabs/div[2]/pb-section-search-result/div/div/div/div/div/div/pb-feature-pagination/digi-navigation-pagination/div/nav/digi-button[2]/button/span[1]/span')
+
+    next_button = driver.find_element(
+        By.XPATH,
+        "/html/body/div[1]/div[2]/div[8]/div/div/main/div[3]/div/div/div[2]/div/div/div/div/div[2]/div[2]/pb-root/div/pb-page-search/div[2]/pb-feature-tabs/div[2]/pb-section-search-result/div/div/div/div/div/div/pb-feature-pagination/digi-navigation-pagination/div/nav/digi-button[2]/button/span[1]/span",
+    )
     next_button.click()
     time.sleep(3)
     return True
 
-# Apend secend pages maincontainers.
-def append_next_page():
-    if next_page == True:
-        main_containers = driver.find_elements(By.CLASS_NAME, 'card-container')
-        return main_containers
-    else:
+
+# run!!
+def runging_page():
+    try:
+        click_decline_button()
+        main_containers = driver.find_elements(By.CLASS_NAME, "card-container")
+        item_organizer(main_containers)
+        next_page()
+        time.sleep(2)
+        main_containers = driver.find_elements(By.CLASS_NAME, "card-container")
+        item_organizer(main_containers)
+        
+
+
+    except:
         driver.quit()
 
 
 
 
-secend_containers = driver.find_elements(By.CLASS_NAME, 'card-container')
-item_organizer(secend_containers)
-
-#third page
-next_page()
-third_containers = driver.find_elements(By.CLASS_NAME, 'card-container')
-item_organizer(third_containers)
-
-#append_next_page()
-print ("Number of main containers " , main_containers.__len__())
-
-
-
-
-
-#Compaile the list for pd dataframe
-#item_organizer()
-print(job_list)
-df = pd.DataFrame(job_list)
-print(df)
-
-
-#intresting_link = MainContainersLocator.df["Ad link:"][1] 
-#intresting_ad = MainContainersLocator.df.iloc[1]
-#MainContainersLocator.df.to_csv("full_list_of_jobs.txt")
-#print (intresting_ad)
-
-
-
-driver.quit()
-
+# intresting_link = MainContainersLocator.df["Ad link:"][1]
+# intresting_ad = MainContainersLocator.df.iloc[1]
+# MainContainersLocator.df.to_csv("full_list_of_jobs.txt")
+# print (intresting_ad)
 

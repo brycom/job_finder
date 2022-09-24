@@ -1,3 +1,13 @@
-#from locators import MainContainersLocator
+import pandas as pd
 
-#print("from elements.py!!!!!!!!!!!!!!!!!!!!!   " , MainContainersLocator.df)
+#from Page import driver, job_list, runging_page
+
+#runging_page()
+
+df = pd.read_csv('jobs_platsbanken.csv')
+
+
+print(df)
+
+
+#driver.quit()
