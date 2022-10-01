@@ -19,9 +19,6 @@ def click_decline_button():
     decline_button.click()
 
 
-# main containers.
-
-
 # locate and sort children
 def item_organizer(containers):
     for i in containers:
@@ -61,17 +58,13 @@ def runging_page():
         time.sleep(2)
         main_containers = driver.find_elements(By.CLASS_NAME, "card-container")
         item_organizer(main_containers)
-        
-
 
     except:
+        print("I culd not retreve eny jobs for you  this time sorry...")
         driver.quit()
-
-
 
 
 # intresting_link = MainContainersLocator.df["Ad link:"][1]
 # intresting_ad = MainContainersLocator.df.iloc[1]
 # MainContainersLocator.df.to_csv("full_list_of_jobs.txt")
 # print (intresting_ad)
-
