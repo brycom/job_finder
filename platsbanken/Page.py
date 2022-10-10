@@ -1,6 +1,3 @@
-import time
-
-import pandas as pd
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 
@@ -44,27 +41,19 @@ def next_page():
         "/html/body/div[1]/div[2]/div[8]/div/div/main/div[3]/div/div/div[2]/div/div/div/div/div[2]/div[2]/pb-root/div/pb-page-search/div[2]/pb-feature-tabs/div[2]/pb-section-search-result/div/div/div/div/div/div/pb-feature-pagination/digi-navigation-pagination/div/nav/digi-button[2]/button/span[1]/span",
     )
     next_button.click()
-    time.sleep(3)
-    return True
 
 
 # run!!
 def runging_page():
-    try:
-        click_decline_button()
+    click_decline_button()
+
+    while driver.find_element(
+        By.XPATH,
+        "/html/body/div[1]/div[2]/div[8]/div/div/main/div[3]/div/div/div[2]/div/div/div/div/div[2]/div[2]/pb-root/div/pb-page-search/div[2]/pb-feature-tabs/div[2]/pb-section-search-result/div/div/div/div/div/div/pb-feature-pagination/digi-navigation-pagination/div/nav/digi-button[2]/button/span[1]/span",
+    ):
         main_containers = driver.find_elements(By.CLASS_NAME, "card-container")
         item_organizer(main_containers)
         next_page()
-        time.sleep(2)
-        main_containers = driver.find_elements(By.CLASS_NAME, "card-container")
-        item_organizer(main_containers)
-
-    except:
-        print("I culd not retreve eny jobs for you  this time sorry...")
-        driver.quit()
-
-
-# intresting_link = MainContainersLocator.df["Ad link:"][1]
-# intresting_ad = MainContainersLocator.df.iloc[1]
-# MainContainersLocator.df.to_csv("full_list_of_jobs.txt")
-# print (intresting_ad)
+        break
+    main_containers = driver.find_elements(By.CLASS_NAME, "card-container")
+    item_organizer(main_containers)
