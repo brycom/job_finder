@@ -1,11 +1,13 @@
 import time
 
-from selenium import webdriver
 from selenium.webdriver.chrome.service import Service as ChromeService
 from selenium.webdriver.common.by import By
+from selenium.webdriver.common.keys import Keys
 from webdriver_manager.chrome import ChromeDriverManager
 
-driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()))
+from selenium import webdriver
+
+driver = webdriver.Chrome(ChromeDriverManager().install())  # type: ignore
 driver.get("https://www.linkedin.com/")
 driver.implicitly_wait(5)
 
@@ -13,8 +15,8 @@ driver.implicitly_wait(5)
 class LogIn:
     def __init__(self):
 
-        self.username = 
-        self.password = 
+        self.username = "mathiasbrynolf20@gmail.com"
+        self.password = "Dazun1997"
 
         self.username_input = driver.find_element(
             By.XPATH, "/html/body/main/section[1]/div/div/form/div[2]/div[1]/input"
