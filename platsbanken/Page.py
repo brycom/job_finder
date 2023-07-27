@@ -1,8 +1,11 @@
+from config import url
 from selenium import webdriver
+from selenium.webdriver.chrome.service import Service as ChromeService
 from selenium.webdriver.common.by import By
+from webdriver_manager.chrome import ChromeDriverManager
 
-url = "https://arbetsformedlingen.se/platsbanken/annonser?p=4:apaJ_2ja_LuF&l=3:mmot_H3A_auW"
-driver = webdriver.Chrome("C:\python\chromedriver.exe")
+# url = "https://arbetsformedlingen.se/platsbanken/annonser?p=4:apaJ_2ja_LuF&l=3:mmot_H3A_auW"
+driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()))
 driver.get(url)
 driver.implicitly_wait(5)
 
